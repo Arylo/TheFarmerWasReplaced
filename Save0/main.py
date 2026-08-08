@@ -10,6 +10,8 @@ list = [
 	Unlocks.Pumpkins,
 	Unlocks.Cactus,
 	Unlocks.Dinosaurs,
+	Unlocks.The_Farmers_Remains,
+	Unlocks.Polyculture,
 ]
 
 for u in list:

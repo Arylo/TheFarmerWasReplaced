@@ -6,11 +6,10 @@ def start(start = 0, zone_size = get_world_size()):
 	world = newWorld(start, zone_size)
 	go = world["go"]
 
-	grass_pos = []
+	grass_pos = zone_utils.snakePath(zone_size)
 
 	def init():
-		global grass_pos
-		grass_pos = zone_utils.snakePath(zone_size)
+		pass
 
 	def plantGrass():
 		for [x, y] in grass_pos:

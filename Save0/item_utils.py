@@ -4,6 +4,7 @@ import zone_sunflower
 import zone_pumpkin
 import zone_grass
 import zone_cactus
+import zone_dinosaur
 
 # 资源 -> 生产该资源的 zone
 map = {
@@ -13,6 +14,7 @@ map = {
 	Items.Wood: (zone_wood, 0, get_world_size()),
 	Items.Pumpkin: (zone_pumpkin, 0, get_world_size()),
 	Items.Cactus: (zone_cactus, 0, get_world_size()),
+	Items.Bone: (zone_dinosaur, 0, get_world_size()),
 }
 
 def _startItem(item):
@@ -27,7 +29,10 @@ def _startItem(item):
 				_startItem(next_item)
 				current_count = num_items(next_item)
 
+	start_time = get_time()
+	quick_print("-- startItem:", item, "...")
 	module.start(start, zone_size)
+	quick_print("-- startItem:", item, "...", get_time() - start_time, "s")
 
 def startItem(item):
 	if item != Items.Power:
@@ -35,9 +40,21 @@ def startItem(item):
 			current_num = num_items(Items.Power)
 			random_num = random()
 			needRun = (current_num <= 2000) or (current_num <= 3000 and random_num < 0.5) or (current_num <= 4000 and random_num < 0.25)
-			quick_print("current_num:", current_num, "random_num:", random_num, "needRun:", needRun)
+			quick_print("item:", Items.Power, "current_num:", current_num, "random_num:", random_num, "needRun:", needRun)
 			if not needRun:
 				break
 			for _ in range(5):
 				_startItem(Items.Power)
+	if item == Items.Bone:
+		while True:
+			current_num = num_items(Items.Cactus)
+			random_num = random()
+			needRun = (current_num <= 2000) or (current_num <= 3000 and random_num < 0.5) or (current_num <= 4000 and random_num < 0.25)
+			quick_print("item:", Items.Cactus, "current_num:", current_num, "random_num:", random_num, "needRun:", needRun)
+			if not needRun:
+				break
+			for _ in range(5):
+				_startItem(Items.Cactus)
+	else:
+		change_hat(Hats.Brown_Hat)
 	_startItem(item)

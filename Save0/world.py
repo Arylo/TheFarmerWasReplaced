@@ -24,16 +24,6 @@ def newWorld(start: int = 0, world_size: int = get_world_size()):
 			action.go(get_pos_x(), start + world_size - 1)
 		else:
 			action.go(get_pos_x(), get_pos_y() - 1)
-	def goNext():
-		tap()
-		if isTopRight():
-			action.go(start, start)
-			return False
-		if isTop():
-			action.go(get_pos_x() + 1, start)
-		else:
-			action.go(get_pos_x(), get_pos_y() + 1)
-		return True
 
 	def goBottom():
 		action.go(get_pos_x(), start)
@@ -53,14 +43,14 @@ def newWorld(start: int = 0, world_size: int = get_world_size()):
 		action.go(start + world_size - 1, start)
 	def goZero():
 		goBottomLeft()
-	def goNeat(target_list):
+	def goNeat(target_list, can_cross = True):
 		tmp_target_list = target_list
 		for i in range(len(tmp_target_list)):
 			tmp_target_list[i] = [tmp_target_list[i][0] + start, tmp_target_list[i][1] + start]
-		(target_pos_x, target_pos_y) = action.goNeat(tmp_target_list)
+		(target_pos_x, target_pos_y) = action.goNeat(tmp_target_list, can_cross)
 		return (target_pos_x - start, target_pos_y - start)
-	def go(x, y):
-		action.go(start + x, start + y)
+	def go(x, y, can_cross = True):
+		action.go(start + x, start + y, can_cross)
 
 	return {
 		"isTop": isTop,
@@ -74,7 +64,6 @@ def newWorld(start: int = 0, world_size: int = get_world_size()):
 		"getRelativeX": getRelativeX,
 		"getRelativeY": getRelativeY,
 
-		"goNext": goNext,
 		"goBottom": goBottom,
 		"goTop": goTop,
 		"goLeft": goLeft,

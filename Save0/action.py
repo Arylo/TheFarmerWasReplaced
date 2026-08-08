@@ -6,7 +6,7 @@ def next():
 		move(East)
 	move(North)
 
-def goNeat(target_list):
+def goNeat(target_list, can_cross = True):
 	len_list = []
 	tap()
 	current_pos_x = get_pos_x()
@@ -15,10 +15,14 @@ def goNeat(target_list):
 	def toN(from_num, to_num):
 		if from_num <= to_num:
 			return to_num - from_num
+		if (not can_cross):
+			return get_world_size()
 		return to_num + get_world_size() - from_num
 	def toS(from_num, to_num):
 		if from_num >= to_num:
 			return from_num - to_num
+		if (not can_cross):
+			return get_world_size()
 		return from_num - (to_num - get_world_size())
 	def toE(from_num, to_num):
 		return toN(from_num, to_num)
@@ -55,23 +59,28 @@ def goNeat(target_list):
 	target_pos_x, target_pos_y, l, is_E, is_N = best_path
 	if l == 0:
 		return (target_pos_x, target_pos_y)
+	previous_pos_x, previous_pos_y = -1, -1
 	while True:
-		if (get_pos_x() == target_pos_x) and (get_pos_y() == target_pos_y):
+		current_pos_x, current_pos_y = get_pos_x(), get_pos_y()
+		if (current_pos_x == previous_pos_x) and (current_pos_y == previous_pos_y):
+			return (current_pos_x, current_pos_y)
+		previous_pos_x, previous_pos_y = current_pos_x, current_pos_y
+		if (current_pos_x == target_pos_x) and (current_pos_y == target_pos_y):
 			return (target_pos_x, target_pos_y)
 	
-		if get_pos_x() != target_pos_x:
+		if current_pos_x != target_pos_x:
 			if (is_E):
 				move(East)
 			else:
 				move(West)
-		if get_pos_y() != target_pos_y:
+		if current_pos_y != target_pos_y:
 			if (is_N):
 				move(North)
 			else:
 				move(South)
 
-def go(target_pos_x, target_pos_y):
-	goNeat([[target_pos_x, target_pos_y]])
+def go(target_pos_x, target_pos_y, can_cross = True):
+	goNeat([[target_pos_x, target_pos_y]], can_cross)
 
 def backBottom():
 	go(get_pos_x(), 0)
