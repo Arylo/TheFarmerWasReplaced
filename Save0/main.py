@@ -58,7 +58,7 @@ for u in list:
 					else:
 						need_hour = ""
 
-					info = "ETC " + need_second + " " + need_minute + " " + need_hour
+					info = "ETA " + need_second + " " + need_minute + " " + need_hour
 				quick_print(u, item, needCount, current_count, "...", info)
 				quick_print("========================")
 		unlock(u)

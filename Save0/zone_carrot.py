@@ -21,7 +21,7 @@ def start(start = 0, zone_size = get_world_size()):
 				plant(Entities.Carrot)
 				if zone_size < 5:
 					zone_utils.water()
-		zone_utils.comboPlant(carrot_pos, start, zone_size)
+				zone_utils.comboPlant(carrot_pos, start, zone_size)
 
 	def harvestCarrot():
 		for [x, y] in carrot_pos:

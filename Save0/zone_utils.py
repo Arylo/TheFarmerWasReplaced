@@ -53,18 +53,24 @@ def isInPos(absX, absY, pos_paths, start, zone_size):
 		paths[i] = [paths[i][0] + start, paths[i][1] + start]
 	return (absX >= start) and (absX < start + zone_size) and (absY >= start) and (absY < start + zone_size)
 
-def comboPlant(pos_paths, start, zone_size):
-	world = newWorld(start, zone_size)
-	go = world["go"]
+def comboPlant(pos_paths = [], start = 0, zone_size = get_world_size()):
+	current_entity = get_entity_type()
+	if current_entity != Entities.Grass and current_entity != Entities.Bush and current_entity != Entities.Tree and current_entity != Entities.Carrot:
+		return
 
+	entity, (cx, cy) = get_companion()
+	if (isInPos(cx, cy, pos_paths, start, zone_size)):
+		return False
+
+	action.go(cx, cy)
+	if get_entity_type() != entity:
+		tryHarvest()
+		if get_ground_type() != Grounds.Soil:
+			till()
+		plant(entity)
+	return True
+
+def comboPlants(pos_paths, start, zone_size):
 	for [x, y] in pos_paths:
-		go(x, y)
-		entity, (cx, cy) = get_companion()
-		if (isInPos(cx, cy, pos_paths, start, zone_size)):
-			continue
-		action.go(cx, cy)
-		if get_entity_type() != entity:
-			tryHarvest()
-			if get_ground_type() != Grounds.Soil:
-				till()
-			plant(entity)
+		action.go(start + x, start +y)
+		comboPlant(pos_paths, start, zone_size)

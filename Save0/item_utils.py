@@ -9,7 +9,7 @@ import zone_dinosaur
 # 资源 -> 生产该资源的 zone
 map = {
 	Items.Hay: (zone_grass, 0, 2),
-	Items.Carrot: (zone_carrot, 0, 3),
+	Items.Carrot: (zone_carrot, 0, 4),
 	Items.Power: (zone_sunflower, 0, get_world_size() / 2),
 	Items.Wood: (zone_wood, 0, get_world_size()),
 	Items.Pumpkin: (zone_pumpkin, 0, 6),

@@ -29,6 +29,8 @@ def start(start = 0, zone_size = get_world_size()):
 			plant(Entities.Tree)
 			if zone_size < BELONG_BUSH_SIZE:
 				zone_utils.water()
+			else:
+				zone_utils.comboPlant(tree_pos, start, zone_size)
 
 	def plantBush():
 		if zone_size < BELONG_BUSH_SIZE:
@@ -49,8 +51,6 @@ def start(start = 0, zone_size = get_world_size()):
 	init()
 	for _ in range(2):
 		plantTree()
-		if zone_size >= BELONG_BUSH_SIZE:
-			zone_utils.comboPlant(tree_pos, start, zone_size)
 		plantBush()
 		harvestWood()
 

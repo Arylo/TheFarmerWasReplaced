@@ -21,6 +21,7 @@ def start(start = 0, zone_size = get_world_size()):
 				plant(Entities.Grass)
 			if zone_size < 3:
 				zone_utils.water()
+			zone_utils.comboPlant(grass_pos, start, zone_size)
 
 	def harvestGrass():
 		for [x, y] in grass_pos:
@@ -30,7 +31,6 @@ def start(start = 0, zone_size = get_world_size()):
 	init()
 	for _ in range((get_world_size() * get_world_size()) / (zone_size * zone_size) * 2):
 		plantGrass()
-		zone_utils.comboPlant(grass_pos, start, zone_size)
 		harvestGrass()
 
 def entities():
