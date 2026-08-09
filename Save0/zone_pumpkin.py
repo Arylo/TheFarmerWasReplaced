@@ -15,11 +15,10 @@ def start(start = 0, zone_size = get_world_size()):
 	getRelativeX = world["getRelativeX"]
 	getRelativeY = world["getRelativeY"]
 
-	pumpkin_pos = []
+	pumpkin_pos = zone_utils.snakePath(zone_size)
 
 	def init():
-		global pumpkin_pos
-		pumpkin_pos = zone_utils.snakePath(zone_size)
+		pass
 
 	def isAllGood():
 		sum = 0
@@ -46,17 +45,21 @@ def start(start = 0, zone_size = get_world_size()):
 				plant(Entities.Pumpkin)
 				if isRight():
 					zone_utils.water()
-			x, y = getRelativeX(), getRelativeY()
-			if (not isLeft()) and map[x - 1][y] == DEFAULT_VALUE:
-				left()
+			else:
 				if can_harvest():
-					map[x - 1][y] = 1
-				if get_entity_type() == Entities.Dead_Pumpkin:
-					plant(Entities.Pumpkin)
-				right()
-			if can_harvest():
-				map[x][y] = 1
+					map[x][y] = 1
+	
+	def scanPumpkins():
+		for [x, y] in pumpkin_pos:
+			go(x, y)
+			if get_entity_type() == Entities.Pumpkin:
+				if can_harvest():
+					map[x][y] = 1
+			elif get_entity_type() == Entities.Dead_Pumpkin:
+				plant(Entities.Pumpkin)
+				zone_utils.water()
 
+	def fixPumpkins():
 		while not isAllGood():
 			ps = findBads()
 			while len(ps) > 0:
@@ -79,6 +82,8 @@ def start(start = 0, zone_size = get_world_size()):
 
 	init()
 	plantPumpkins()
+	scanPumpkins()
+	fixPumpkins()
 	harvestPumpkin()
 
 def entities():

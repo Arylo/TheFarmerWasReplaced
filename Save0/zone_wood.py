@@ -3,6 +3,8 @@ import action
 from world import newWorld
 
 def start(start = 0, zone_size = get_world_size()):
+	BELONG_BUSH_SIZE = 5
+
 	world = newWorld(start, zone_size)
 	go = world["go"]
 
@@ -17,7 +19,7 @@ def start(start = 0, zone_size = get_world_size()):
 		for [x, y] in all_pos:
 			if (x + y) % 2 == 0:
 				tree_pos.append([x, y])
-			elif zone_size < 5:
+			else:
 				bush_pos.append([x, y])
 
 	def plantTree():
@@ -25,10 +27,12 @@ def start(start = 0, zone_size = get_world_size()):
 			go(x, y)
 			zone_utils.tryHarvest()
 			plant(Entities.Tree)
-			if zone_size < 5:
+			if zone_size < BELONG_BUSH_SIZE:
 				zone_utils.water()
 
 	def plantBush():
+		if zone_size < BELONG_BUSH_SIZE:
+			return
 		for [x, y] in bush_pos:
 			go(x, y)
 			zone_utils.tryHarvest()
@@ -45,6 +49,8 @@ def start(start = 0, zone_size = get_world_size()):
 	init()
 	for _ in range(2):
 		plantTree()
+		if zone_size >= BELONG_BUSH_SIZE:
+			zone_utils.comboPlant(tree_pos, start, zone_size)
 		plantBush()
 		harvestWood()
 

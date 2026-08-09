@@ -1,5 +1,6 @@
 import action
 import pos
+from world import newWorld
 
 def water():
 	while get_water() < 1:
@@ -19,9 +20,14 @@ def harvestAll():
 			break
 		action.next()
 
-def tryHarvest():
+def tryHarvest(wait = False):
+	if get_entity_type() == None:
+		return
 	if can_harvest():
 		harvest()
+	elif wait:
+		water()
+		action.pet()
 
 def initList(val, world_size = get_world_size()):
 	lst = []
@@ -40,3 +46,25 @@ def snakePath(zone_size):
 			else:
 				pos.append([i, zone_size - 1 - j])
 	return pos
+
+def isInPos(absX, absY, pos_paths, start, zone_size):
+	paths = pos_paths
+	for i in range(len(paths)):
+		paths[i] = [paths[i][0] + start, paths[i][1] + start]
+	return (absX >= start) and (absX < start + zone_size) and (absY >= start) and (absY < start + zone_size)
+
+def comboPlant(pos_paths, start, zone_size):
+	world = newWorld(start, zone_size)
+	go = world["go"]
+
+	for [x, y] in pos_paths:
+		go(x, y)
+		entity, (cx, cy) = get_companion()
+		if (isInPos(cx, cy, pos_paths, start, zone_size)):
+			continue
+		action.go(cx, cy)
+		if get_entity_type() != entity:
+			tryHarvest()
+			if get_ground_type() != Grounds.Soil:
+				till()
+			plant(entity)

@@ -17,15 +17,16 @@ def start(start = 0, zone_size = get_world_size()):
 	def plantSunflower():
 		for [x, y] in sunflower_pos:
 			go(x, y)
-			zone_utils.tryHarvest()
+			zone_utils.tryHarvest(True)
 			if get_ground_type() != Grounds.Soil:
 				till()
 			if get_entity_type() != Entities.Sunflower:
 				plant(Entities.Sunflower)
-			count = measure()
-			sunflower_count[x][y] = count
-			if count > 13 and isRight():
-				zone_utils.water()
+			if get_entity_type() == Entities.Sunflower:
+				count = measure()
+				sunflower_count[x][y] = count
+				if count > 13 and isRight():
+					zone_utils.water()
 
 	def findMax():
 		pos = []

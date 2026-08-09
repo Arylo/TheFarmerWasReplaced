@@ -9,10 +9,10 @@ import zone_dinosaur
 # 资源 -> 生产该资源的 zone
 map = {
 	Items.Hay: (zone_grass, 0, 2),
-	Items.Carrot: (zone_carrot, 0, 5),
+	Items.Carrot: (zone_carrot, 0, 3),
 	Items.Power: (zone_sunflower, 0, get_world_size() / 2),
 	Items.Wood: (zone_wood, 0, get_world_size()),
-	Items.Pumpkin: (zone_pumpkin, 0, get_world_size()),
+	Items.Pumpkin: (zone_pumpkin, 0, 6),
 	Items.Cactus: (zone_cactus, 0, get_world_size()),
 	Items.Bone: (zone_dinosaur, 0, get_world_size()),
 }
@@ -30,8 +30,10 @@ def _startItem(item):
 				current_count = num_items(next_item)
 
 	start_time = get_time()
-	quick_print("-- startItem:", item, "...")
+	start_count = num_items(item)
+	quick_print("-- startItem:", item, "..." )
 	module.start(start, zone_size)
+	quick_print("-- startItem:", item, "...", start_count, "-", num_items(item) - start_count, "->", num_items(item), "(", (num_items(item) - start_count) / (get_time() - start_time), "/s )")
 	quick_print("-- startItem:", item, "...", get_time() - start_time, "s")
 
 def startItem(item):

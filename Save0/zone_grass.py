@@ -25,14 +25,12 @@ def start(start = 0, zone_size = get_world_size()):
 	def harvestGrass():
 		for [x, y] in grass_pos:
 			go(x, y)
-			if can_harvest():
-				harvest()
-			else:
-				action.pet()
+			zone_utils.tryHarvest()
 
 	init()
-	plantGrass()
 	for _ in range((get_world_size() * get_world_size()) / (zone_size * zone_size) * 2):
+		plantGrass()
+		zone_utils.comboPlant(grass_pos, start, zone_size)
 		harvestGrass()
 
 def entities():

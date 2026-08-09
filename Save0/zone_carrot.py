@@ -6,11 +6,10 @@ def start(start = 0, zone_size = get_world_size()):
 	world = newWorld(start, zone_size)
 	go = world["go"]
 
-	carrot_pos = []
+	carrot_pos = zone_utils.snakePath(zone_size)
 
 	def init():
-		global carrot_pos
-		carrot_pos = zone_utils.snakePath(zone_size)
+		pass
 
 	def plantCarrot():
 		for [x, y] in carrot_pos:
@@ -20,6 +19,9 @@ def start(start = 0, zone_size = get_world_size()):
 				till()
 			if get_entity_type() != Entities.Carrot:
 				plant(Entities.Carrot)
+				if zone_size < 5:
+					zone_utils.water()
+		zone_utils.comboPlant(carrot_pos, start, zone_size)
 
 	def harvestCarrot():
 		for [x, y] in carrot_pos:
